@@ -1520,7 +1520,7 @@ function current(){var n=nav(); return (n&&n.current&&n.current())||art||arts[0]
 function boxes(a){return [].slice.call(a.querySelectorAll('.ticks input'));}
 function active(a){var k=a.dataset.hlk; if(!k) return null; return a.querySelector('.ticks input[data-k="'+k.replace(/"/g,'')+'"]');}
 function nameOf(li){var pn=li.querySelector('.pn'); if(!pn) return txt(li.querySelector('label'))||'Piece'; var c=pn.cloneNode(true), x=c.querySelector('.pid'); if(x) x.remove(); return c.textContent.trim();}
-function swatch(li){var s=li.querySelector('.pc .sw'); var o=el('span','ck-sw'); if(s) o.style.background=s.style.background; var pc=li.querySelector('.pc'); if(pc) o.title=txt(pc); return o;}
+function swatch(li){var s=li.querySelector('.pc .sw'); var o=el('span','ck-sw'); if(s){ var bg=s.style.background||getComputedStyle(s).backgroundColor; o.style.background=bg; } var pc=li.querySelector('.pc'); if(pc) o.title=txt(pc); return o;}
 function label(a){var sec=a.closest('.sec'), big=a.closest('.big'); return [txt(sec&&sec.querySelector('h2')), txt(big&&big.querySelector('.bighead h3'))].filter(Boolean).join(' · ');}
 function webgl(){try{var c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'));}catch(e){return false;}}
 function load(){ if(window.MOCKIT3DLOAD) return MOCKIT3DLOAD(); return Promise.reject(new Error('no 3D loader')); }
