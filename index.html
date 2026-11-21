@@ -139,6 +139,86 @@ article.step.sm-in-l{animation:smInL .22s ease-out} article.step.sm-in-r{animati
 @media (hover:none),(pointer:coarse){.pq-edge{display:block;position:fixed;top:0;right:0;bottom:0;width:24px;z-index:27;touch-action:none;-webkit-tap-highlight-color:transparent}}
 .pq-edge.off{display:none}
 .pq:not(.on):not(.drag){visibility:hidden;transition:transform .22s ease-out,visibility 0s .22s}
+/* Build in 3D: full-screen 3D for the current step, tick list on the left, Parts on the right */
+body.b3m-on{overflow:hidden}
+.b3m{position:fixed;inset:0;z-index:32;background:#d5c7ac;color:#1d2329;font-family:var(--body);overscroll-behavior:contain}
+.b3m[hidden]{display:none}
+.b3m-v{position:absolute;inset:0}
+.b3m-v canvas{touch-action:none}
+.b3m-msg{position:absolute;inset:0;display:grid;place-items:center;font:600 16px var(--body);pointer-events:none}
+.b3m-msg[hidden]{display:none}
+.b3m-top{position:absolute;left:0;right:0;top:0;display:flex;align-items:flex-start;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top,0px));pointer-events:none}
+.b3m-top>*{pointer-events:auto}
+.b3m button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.b3m-x{flex:none;border:0;border-radius:999px;background:#1d2329;color:#fff;font:700 15px/1 var(--display);padding:12px 16px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.b3m-ti{flex:1;min-width:0;text-align:center;background:rgba(251,248,241,.9);border-radius:10px;padding:6px 12px;box-shadow:0 2px 10px rgba(0,0,0,.12);max-width:520px;margin:0 auto;pointer-events:none}
+.b3m-ti p{margin:0}
+.b3m-e{text-transform:uppercase;letter-spacing:.09em;font-size:11px;font-weight:600;color:var(--accent,#c8242b);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b3m-t{font:800 22px/1.15 var(--display)}
+.b3m-c{font-size:12px;color:var(--muted,#5b6470);font-variant-numeric:tabular-nums}
+.b3m-tools{flex:none;display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.b3m-tools button{border:0;border-radius:999px;background:rgba(255,255,255,.92);color:#1d2329;font:600 14px/1 var(--body);padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.b3m-find{background:#ffd60a!important;font-weight:700!important}
+.b3m-bot{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:center;gap:12px;padding:12px;padding-bottom:max(14px,env(safe-area-inset-bottom,0px));pointer-events:none}
+.b3m-bot>*{pointer-events:auto}
+.b3m-pv,.b3m-nx{flex:none;width:58px;height:58px;border:0;border-radius:999px;background:rgba(29,35,41,.85);color:#fff;font:800 30px/1 var(--display);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.b3m-pv:disabled,.b3m-nx:disabled{opacity:.3;cursor:default}
+.b3m-mid{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:min(420px,calc(100vw - 180px))}
+.b3m-cue{display:flex;align-items:center;gap:10px;border:0;border-radius:10px;background:rgba(251,248,241,.94);padding:6px 10px 6px 6px;text-align:left;box-shadow:0 2px 10px rgba(0,0,0,.15);color:inherit}
+.b3m-cue[hidden]{display:none}
+.b3m-cp .pp{display:block;width:44px;height:44px;border-radius:6px}
+.b3m-ci{min-width:0;display:grid;gap:2px}
+.b3m-cn{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b3m-ck{font-size:12px;color:var(--muted,#5b6470);display:flex;align-items:center;gap:5px}
+.b3m-pl{display:flex;flex-direction:column;align-items:center;gap:3px;border:0;border-radius:14px;background:#2f7d32;color:#fff;padding:14px 18px;min-height:68px;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.28)}
+.b3m-pl.nxt{background:#1d2329}
+.b3m-pl:disabled{opacity:.6;cursor:default}
+.b3m-p1{font:800 24px/1 var(--display)}
+.b3m-p2{font-size:13px;opacity:.9}
+.b3m-pl:active{transform:scale(.98)}
+.b3m-toast{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.9);background:rgba(47,125,50,.95);color:#fff;font:800 22px/1.25 var(--display);padding:16px 22px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;text-align:center;max-width:80vw}
+.b3m-toast.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.b3m-hint{position:absolute;left:50%;top:max(96px,calc(env(safe-area-inset-top,0px) + 96px));transform:translateX(-50%);background:rgba(29,35,41,.8);color:#fff;font:500 13px/1.35 var(--body);padding:6px 10px;border-radius:6px;pointer-events:none;transition:opacity .6s;text-align:center;max-width:80vw}
+/* ways in */
+.shot-btns{position:absolute;top:8px;right:8px;z-index:3;display:flex;gap:6px;align-items:center}
+.shot-btns .b3d{position:static}
+.b3full{font:700 13px/1 var(--display);letter-spacing:.02em;color:#1d2329;background:#ffd60a;border:0;border-radius:999px;padding:8px 13px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25);-webkit-tap-highlight-color:transparent}
+.snav .sn-acts{grid-column:1/-1;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.snav .sn-acts .sn-x{grid-column:auto}
+.snav .sn-3d{font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;background:#ffd60a;border-color:#d9b400}
+/* the Parts tab and edge sit above the 3D layer */
+body.b3m-on .pq-tab,body.b3m-on .pq-edge{z-index:34}
+body.b3m-on .sfab{display:none}
+/* tick list (only in Build in 3D) */
+.ck-tab,.ck-edge,.ck-back{display:none}
+body.b3m-on .ck-tab{display:flex;position:fixed;left:0;top:62%;z-index:34;transform:translateY(-50%);flex-direction:column;align-items:center;gap:6px;padding:12px 7px;border:1px solid var(--line,#ddd);border-left:0;border-radius:0 10px 10px 0;background:var(--paper,#fbf8f1);color:var(--ink,#1d2329);box-shadow:2px 2px 10px rgba(0,0,0,.15);cursor:pointer;font:700 13px/1 var(--display);-webkit-tap-highlight-color:transparent}
+.ck-tab .ck-tl{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.04em}
+.ck-tab .ck-n{min-width:22px;height:22px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--accent,#c8242b);color:#fff;display:grid;place-items:center;font:700 12px/1 var(--body)}
+.ck-tab .ck-n.z{background:#3f8f3f}
+@media (hover:none),(pointer:coarse){body.b3m-on .ck-edge{display:block;position:fixed;top:0;left:0;bottom:0;width:24px;z-index:34;touch-action:none;-webkit-tap-highlight-color:transparent}}
+body.b3m-on .ck-edge.off{display:none}
+body.b3m-on .ck-back{display:block;position:fixed;inset:0;z-index:40;background:rgba(10,14,20,.25);opacity:0;pointer-events:none;transition:opacity .2s}
+body.b3m-on .ck-back.on{opacity:1;pointer-events:auto}
+.ck{position:fixed;top:0;left:0;bottom:0;z-index:41;width:min(300px,80vw);background:var(--paper,#fbf8f1);color:var(--ink,#1d2329);border-right:1px solid var(--line,#ddd);box-shadow:6px 0 24px rgba(0,0,0,.2);transform:translateX(-105%);transition:transform .22s ease-out;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);touch-action:pan-y}
+.ck.on{transform:none}
+.ck.drag{transition:none}
+.ck:not(.on):not(.drag){visibility:hidden;transition:transform .22s ease-out,visibility 0s .22s}
+.ck-h{display:flex;align-items:start;gap:10px;padding:14px 12px 10px 16px;border-bottom:3px solid var(--ink,#1d2329)}
+.ck-h div{flex:1;min-width:0}
+.ck-t{margin:0;font:800 22px/1.15 var(--display)}
+.ck-s{margin:2px 0 0;font-size:13px;color:var(--muted,#5b6470)}
+.ck-x{flex:none;width:36px;height:36px;border-radius:999px;border:1px solid var(--line,#ddd);background:var(--callout,#efe9dc);color:inherit;font:700 20px/1 var(--body);cursor:pointer}
+.ck-l{list-style:none;margin:0;padding:8px 10px 18px;display:grid;gap:4px;overflow-y:auto;-webkit-overflow-scrolling:touch;align-content:start;flex:1}
+.ck-l li{display:flex;align-items:center;gap:8px;border-radius:8px;padding:3px 4px}
+.ck-l li.cur{background:rgba(255,214,10,.35);box-shadow:inset 4px 0 0 #ffd60a}
+.ck-b{flex:none;width:44px;height:44px;border-radius:8px;border:2.5px solid var(--ink,#1d2329);background:#fff;color:#fff;font:800 24px/1 var(--body);cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.ck-l li.on .ck-b{background:#2f7d32;border-color:#2f7d32}
+.ck-nm{flex:1;min-width:0;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:inherit;font:500 14px/1.2 var(--body);text-align:left;padding:6px 2px;cursor:pointer}
+.ck-pn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ck-l li.on .ck-pn{color:var(--muted,#5b6470);text-decoration:line-through}
+.ck-sw,.b3m-ck .ck-sw{flex:none;width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.3);display:inline-block}
+@media (prefers-reduced-motion:reduce){.ck,.ck-back,.b3m-toast{transition:none}}
+@media (max-width:600px){.b3m-tools button{padding:8px 10px;font-size:13px}.b3m-t{font-size:18px}.b3m-mid{width:calc(100vw - 160px)}}
 </style>
 <main class="wrap">
 <header class="intro"><p class="eyebrow">Nightmare Before Christmas scene · version 3</p><h1>Mountain base</h1>
@@ -1178,6 +1258,7 @@ document.querySelectorAll('article.step').forEach(function(art){
   });
   art.addEventListener('mockit-hl',function(e){ if(active&&active.art===art&&window.MOCKIT3D) MOCKIT3D.setKey(e.detail); });
 });
+window.MOCKIT3DLOAD=load;
 window.MOCKIT3DUI={close:closeActive,isOpen:function(art){return !!(active&&(!art||active.art===art));}};
 })();
 </script>
@@ -1251,7 +1332,7 @@ fab.addEventListener('click',enter); xb.addEventListener('click',exit);
 pv.addEventListener('click',function(){go(idx-1,-1);}); nx.addEventListener('click',function(){go(idx+1,1);});
 document.addEventListener('keydown',function(e){
   if(!on||e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)&&e.target.type!=='checkbox') return;
-  if(window.MOCKIT3DUI&&MOCKIT3DUI.isOpen()) return;
+  if(window.MOCKIT3DUI&&MOCKIT3DUI.isOpen()||window.MOCKITB3M&&MOCKITB3M.isOpen()) return;
   if(e.key==='ArrowRight'){go(idx+1,1);e.preventDefault();} else if(e.key==='ArrowLeft'){go(idx-1,-1);e.preventDefault();}
 });
 function swipe(a,shot,i){
@@ -1277,7 +1358,7 @@ function swipe(a,shot,i){
 /* in the scrolling booklet, remember the step nearest the top of the screen */
 function watch(){ if(!('IntersectionObserver' in window)) return;
   var io=new IntersectionObserver(function(es){
-    if(on) return;
+    if(on||window.MOCKITB3M&&MOCKITB3M.isOpen()) return;
     es.forEach(function(en){ if(en.isIntersecting){ var i=arts.indexOf(en.target); if(i>=0&&i!==idx){idx=i; sv(KS,arts[i].id); notify();} } });
   },{rootMargin:'-20% 0px -60% 0px'});
   arts.forEach(function(a){io.observe(a);});
@@ -1379,6 +1460,181 @@ function end(){
 document.addEventListener('touchend',end,true); document.addEventListener('touchcancel',end,true);
 render();
 window.MOCKITPARTS={open:function(){setOpen(true);},close:function(){setOpen(false);},isOpen:function(){return open;}};
+})();
+</script>
+<script>
+/* Build in 3D: the 3D model fills the screen for the current step. The next piece glows yellow; tick it with the
+   big "Placed" button (or in the tick list that swipes in from the left edge) and the glow moves on, the camera
+   pans just enough to keep it in view, and when every piece is on the next step opens by itself.
+   Uses the same single viewer as the small 3D views, and the page's own tick boxes, so ticks stay in sync
+   everywhere. Remembers whether you were last in this mode (localStorage <prefix>-3d). */
+(function(){
+var arts=[].slice.call(document.querySelectorAll('article.step')); if(!arts.length) return;
+var CFG=window.MOCKIT_CFG||{}, P=CFG.prefix||'moc', K3=P+'-3d', EDGE=24;
+function gv(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function sv(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function el(t,c,txt){var e=document.createElement(t); if(c) e.className=c; if(txt!=null) e.textContent=txt; return e;}
+function btn(c,txt,label){var b=el('button',c,txt); b.type='button'; if(label) b.setAttribute('aria-label',label); return b;}
+function txt(e){return e?e.textContent.trim():'';}
+var ready=false, on=false, art=null, prevMode=null, advT=0, toastT=0, hintT=0, focusT=0, ckOpen=false;
+
+/* ---- the full-screen layer ---- */
+var root=el('div','b3m'); root.setAttribute('role','dialog'); root.setAttribute('aria-label','Build in 3D'); root.hidden=true;
+var host=el('div','b3m-v'), msg=el('div','b3m-msg','Loading 3D…');
+var top=el('div','b3m-top'), xb=btn('b3m-x','✕ Exit 3D','Leave Build in 3D'), ti=el('div','b3m-ti'), te=el('p','b3m-e'), tt=el('p','b3m-t'), tc=el('p','b3m-c');
+ti.appendChild(te); ti.appendChild(tt); ti.appendChild(tc);
+var tools=el('div','b3m-tools'), fb=btn('b3m-find','◎ Find piece','Turn the camera to the glowing piece'), wb=btn('b3m-whole','Whole step','Show the whole step again');
+tools.appendChild(fb); tools.appendChild(wb); top.appendChild(xb); top.appendChild(ti); top.appendChild(tools);
+var bot=el('div','b3m-bot'), pv=btn('b3m-pv','‹','Previous step'), nx=btn('b3m-nx','›','Next step');
+var mid=el('div','b3m-mid'), cue=btn('b3m-cue',null,'Show the glowing piece'), cuep=el('span','b3m-cp'), cuei=el('span','b3m-ci'), cuen=el('span','b3m-cn'), cuek=el('span','b3m-ck');
+cuei.appendChild(cuen); cuei.appendChild(cuek); cue.appendChild(cuep); cue.appendChild(cuei);
+var pl=btn('b3m-pl'), pl1=el('span','b3m-p1','Placed ✓'), pl2=el('span','b3m-p2','next piece'); pl.appendChild(pl1); pl.appendChild(pl2);
+mid.appendChild(cue); mid.appendChild(pl); bot.appendChild(pv); bot.appendChild(mid); bot.appendChild(nx);
+var toast=el('div','b3m-toast'); toast.setAttribute('role','status'); toast.setAttribute('aria-live','polite');
+var hint=el('div','b3m-hint','Drag to turn · pinch to zoom · two fingers to move · swipe in from the left for the tick list');
+[host,msg,top,bot,toast,hint].forEach(function(e){root.appendChild(e);});
+document.body.appendChild(root);
+
+/* ---- tick list on the left ---- */
+var ctab=btn('ck-tab',null,'Show the tick list'), ctn=el('span','ck-n','0'); ctab.appendChild(el('span','ck-tl','Ticks')); ctab.appendChild(ctn); ctab.setAttribute('aria-expanded','false');
+var cback=el('div','ck-back'), cpane=el('aside','ck'); cpane.setAttribute('aria-label','Tick list for this step'); cpane.setAttribute('aria-hidden','true');
+var ch=el('div','ck-h'), chd=el('div'), cht=el('h2','ck-t'), chs=el('p','ck-s'), cx=btn('ck-x','×','Close the tick list');
+chd.appendChild(cht); chd.appendChild(chs); ch.appendChild(chd); ch.appendChild(cx);
+var clist=el('ul','ck-l'); cpane.appendChild(ch); cpane.appendChild(clist);
+var cedge=el('div','ck-edge'); cedge.setAttribute('aria-hidden','true');
+[cedge,ctab,cback,cpane].forEach(function(e){document.body.appendChild(e);});
+
+/* ---- ways in: the step-by-step bar and every step's picture ---- */
+var snav=document.querySelector('.snav'), sx=snav&&snav.querySelector('.sn-x');
+if(snav){ var acts=el('div','sn-acts'), sb=btn('sn-3d','Build in 3D','Build this step in full-screen 3D'); if(sx) acts.appendChild(sx); acts.appendChild(sb); snav.appendChild(acts);
+  sb.addEventListener('click',function(){enter();}); }
+arts.forEach(function(a){
+  var shot=a.querySelector('.shot'); if(!shot) return;
+  var row=el('div','shot-btns'), b=btn('b3full','⛶ Build in 3D','Build this step in full-screen 3D'), b3=shot.querySelector('.b3d');
+  row.appendChild(b); if(b3) row.appendChild(b3); shot.appendChild(row);
+  b.addEventListener('click',function(){ var n=window.MOCKITNAV, i=arts.indexOf(a); if(n&&n.index()!==i) n.go(i); enter(a); });
+});
+
+function nav(){return window.MOCKITNAV;}
+function current(){var n=nav(); return (n&&n.current&&n.current())||art||arts[0];}
+function boxes(a){return [].slice.call(a.querySelectorAll('.ticks input'));}
+function active(a){var k=a.dataset.hlk; if(!k) return null; return a.querySelector('.ticks input[data-k="'+k.replace(/"/g,'')+'"]');}
+function nameOf(li){var pn=li.querySelector('.pn'); if(!pn) return txt(li.querySelector('label'))||'Piece'; var c=pn.cloneNode(true), x=c.querySelector('.pid'); if(x) x.remove(); return c.textContent.trim();}
+function swatch(li){var s=li.querySelector('.pc .sw'); var o=el('span','ck-sw'); if(s) o.style.background=s.style.background; var pc=li.querySelector('.pc'); if(pc) o.title=txt(pc); return o;}
+function label(a){var sec=a.closest('.sec'), big=a.closest('.big'); return [txt(sec&&sec.querySelector('h2')), txt(big&&big.querySelector('.bighead h3'))].filter(Boolean).join(' · ');}
+function webgl(){try{var c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'));}catch(e){return false;}}
+function load(){ if(window.MOCKIT3DLOAD) return MOCKIT3DLOAD(); return Promise.reject(new Error('no 3D loader')); }
+
+function ui(){
+  var a=current(), bs=boxes(a), done=bs.filter(function(b){return b.checked;}).length, i=arts.indexOf(a), cb=active(a);
+  te.textContent=label(a); tt.textContent=txt(a.querySelector('.snum')); tc.textContent='Step '+(i+1)+' of '+arts.length+' · '+done+' of '+bs.length+' placed';
+  pv.disabled=i<=0; nx.disabled=i>=arts.length-1;
+  if(cb){ var li=cb.closest('li'), pp=li.querySelector('.pp'); cuep.textContent=''; if(pp){var c=pp.cloneNode(true); c.setAttribute('aria-hidden','true'); cuep.appendChild(c);} 
+    cuen.textContent=nameOf(li); cuek.textContent=''; cuek.appendChild(swatch(li)); cuek.appendChild(document.createTextNode(txt(li.querySelector('.pc'))));
+    cue.hidden=false; pl.classList.remove('nxt'); pl1.textContent='Placed ✓'; pl2.textContent=(done===bs.length-1)?'finishes this step':'next piece';
+    pl.setAttribute('aria-label','Mark '+nameOf(li)+' as placed');
+  } else { cue.hidden=true; pl.classList.add('nxt');
+    if(i<arts.length-1){ pl1.textContent='Next step ›'; pl2.textContent=bs.length?'all '+bs.length+' pieces placed':''; pl.disabled=false; pl.setAttribute('aria-label','Go to the next step'); }
+    else { pl1.textContent='All done ✓'; pl2.textContent='last step'; pl.disabled=true; } }
+  if(cb) pl.disabled=false;
+  ctn.textContent=bs.length-done; ctn.classList.toggle('z',done===bs.length);
+  if(ckOpen) renderList();
+}
+function renderList(){
+  var a=current(), bs=boxes(a), done=bs.filter(function(b){return b.checked;}).length, k=a.dataset.hlk;
+  cht.textContent=txt(a.querySelector('.snum')); chs.textContent=done+' of '+bs.length+' placed';
+  clist.textContent='';
+  bs.forEach(function(cb){
+    var li=cb.closest('li'), row=el('li'); if(cb.checked) row.className='on'; if(cb.dataset.k===k) row.classList.add('cur');
+    var b=btn('ck-b',cb.checked?'✓':'',(cb.checked?'Untick ':'Tick ')+nameOf(li)); b.setAttribute('role','checkbox'); b.setAttribute('aria-checked',cb.checked?'true':'false');
+    var n=btn('ck-nm',null,'Show '+nameOf(li)+' in 3D'); n.appendChild(swatch(li)); n.appendChild(el('span','ck-pn',nameOf(li)));
+    b.addEventListener('click',function(){cb.click();});
+    n.addEventListener('click',function(){var pp=li.querySelector('.pp'); if(pp) pp.click(); setTimeout(function(){if(window.MOCKIT3D) MOCKIT3D.focus('find');},30);});
+    row.appendChild(b); row.appendChild(n); clist.appendChild(row);
+  });
+}
+function setCk(v){
+  ckOpen=v; if(v) renderList(); cpane.classList.toggle('on',v); cback.classList.toggle('on',v); cpane.style.transform='';
+  cpane.setAttribute('aria-hidden',v?'false':'true'); ctab.setAttribute('aria-expanded',v?'true':'false'); cedge.classList.toggle('off',v);
+}
+function say(t,ms){ clearTimeout(toastT); toast.textContent=t; toast.classList.add('on'); toastT=setTimeout(function(){toast.classList.remove('on');},ms||1800); }
+
+function show3d(keep){
+  var a=current(); art=a; if(!ready) return;
+  var ok=MOCKIT3D.open(host,(a.dataset.sec||a.id.charAt(0)),a.id,a.dataset.hlk||null,{keepView:!!keep});
+  msg.hidden=ok; if(!ok) msg.textContent='No 3D data for this step.';
+  clearTimeout(focusT); focusT=setTimeout(function(){ if(on&&window.MOCKIT3D) MOCKIT3D.focus('auto'); },60);
+}
+function enter(a){
+  if(on) return; on=true; sv(K3,'1');
+  var n=nav(); prevMode=n&&n.stepMode&&n.stepMode()?'step':'book';
+  if(window.MOCKIT3DUI) MOCKIT3DUI.close(); if(window.MOCKITPARTS&&MOCKITPARTS.isOpen()) MOCKITPARTS.close();
+  root.hidden=false; document.body.classList.add('b3m-on'); art=current(); ui();
+  hint.style.opacity=''; clearTimeout(hintT); hintT=setTimeout(function(){hint.style.opacity='0';},5000);
+  if(!webgl()){ msg.hidden=false; msg.textContent='3D needs WebGL, which this browser has turned off.'; return; }
+  msg.hidden=false; msg.textContent='Loading 3D…';
+  load().then(function(){ ready=true; if(on) show3d(false); }).catch(function(){ if(on){msg.hidden=false; msg.textContent='Could not load the 3D files.';} });
+  xb.focus({preventScroll:true});
+}
+function exit(){
+  if(!on) return; on=false; sv(K3,'0'); clearTimeout(advT); setCk(false);
+  if(window.MOCKIT3D) MOCKIT3D.close();
+  root.hidden=true; document.body.classList.remove('b3m-on'); toast.classList.remove('on');
+  var n=nav(); if(n&&!n.stepMode()) { var a=current(); if(a) a.scrollIntoView({block:'start'}); }
+}
+function go(d){ var n=nav(); if(!n) return; var i=n.index()+d; if(i<0||i>=arts.length) return; clearTimeout(advT); n.go(i); }
+xb.addEventListener('click',exit);
+pv.addEventListener('click',function(){go(-1);}); nx.addEventListener('click',function(){go(1);});
+fb.addEventListener('click',function(){ if(window.MOCKIT3D) MOCKIT3D.focus('find'); });
+wb.addEventListener('click',function(){ if(window.MOCKIT3D) MOCKIT3D.reset(); });
+cue.addEventListener('click',function(){ if(window.MOCKIT3D) MOCKIT3D.focus('find'); });
+pl.addEventListener('click',function(){ var cb=active(current()); if(cb&&!cb.checked) cb.click(); else if(!cb) go(1); });
+ctab.addEventListener('click',function(){setCk(true);}); cx.addEventListener('click',function(){setCk(false);}); cback.addEventListener('click',function(){setCk(false);});
+
+document.addEventListener('mockit-step',function(){ if(!on) return; clearTimeout(advT); ui(); if(ready) show3d(true); });
+arts.forEach(function(a){ a.addEventListener('mockit-hl',function(e){
+  if(!on||a!==current()) return; ui();
+  if(window.MOCKIT3D&&MOCKIT3D.isOpen()){ MOCKIT3D.setKey(e.detail); clearTimeout(focusT); focusT=setTimeout(function(){ if(on) MOCKIT3D.focus('auto'); },40); }
+}); });
+/* every piece on: say so, then move on to the next step */
+document.addEventListener('change',function(e){
+  var t=e.target; if(!on||!t||!t.matches||!t.matches('.ticks input')) return; var a=current(); if(!a.contains(t)) return;
+  ui(); if(!t.checked){ clearTimeout(advT); return; }
+  var bs=boxes(a); if(!bs.every(function(b){return b.checked;})) return;
+  var i=arts.indexOf(a);
+  if(i>=arts.length-1){ say('Step '+txt(a.querySelector('.snum'))+' done ✓ That was the last step!',3500); return; }
+  say('Step '+txt(a.querySelector('.snum'))+' done ✓ Next: '+txt(arts[i+1].querySelector('.snum')),1700);
+  clearTimeout(advT); advT=setTimeout(function(){ if(on&&current()===a&&boxes(a).every(function(b){return b.checked;})) go(1); },1300);
+});
+window.addEventListener('keydown',function(e){
+  if(!on) return;
+  if(e.key==='Escape'){ if(ckOpen){setCk(false);e.stopPropagation();} else if(window.MOCKITPARTS&&MOCKITPARTS.isOpen()) return; else exit(); }
+  else if(e.target&&/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)&&e.target.type!=='checkbox'&&e.key===' ') return;
+  else if(e.key==='ArrowRight'){go(1);e.preventDefault();} else if(e.key==='ArrowLeft'){go(-1);e.preventDefault();}
+},true);
+
+/* swipe in from the left edge to open the tick list (a 24px strip catches it, so the 3D view never sees it);
+   swipe the list back to the left to close it */
+var sx0=0,sy0=0,mode=null,dx=0,W=0;
+document.addEventListener('touchstart',function(e){
+  if(!on||e.touches.length!==1) { mode=null; return; }
+  var t=e.touches[0]; sx0=t.clientX; sy0=t.clientY; dx=0; mode=null;
+  if(!ckOpen&&(e.target===cedge||sx0<=EDGE)&&!(window.MOCKITPARTS&&MOCKITPARTS.isOpen())){ mode='edge?'; window.MOCKIT_EDGE=true; }
+  else if(ckOpen&&cpane.contains(e.target)) mode='pane?';
+},{capture:true,passive:true});
+document.addEventListener('touchmove',function(e){
+  if(!mode) return; var t=e.touches[0]; dx=t.clientX-sx0; var dy=t.clientY-sy0;
+  if(mode==='edge?'){ if(Math.abs(dx)>8||Math.abs(dy)>8){ mode=(dx>0&&Math.abs(dx)>Math.abs(dy))?'edge':null; if(mode){ renderList(); W=cpane.offsetWidth; cpane.classList.add('drag'); cback.classList.add('on'); } else window.MOCKIT_EDGE=false; } }
+  else if(mode==='pane?'){ if(Math.abs(dx)>8||Math.abs(dy)>8){ mode=(dx<0&&Math.abs(dx)>Math.abs(dy))?'pane':null; if(mode){ W=cpane.offsetWidth; cpane.classList.add('drag'); } } }
+  if(mode==='edge'){ e.preventDefault(); cpane.style.transform='translateX('+Math.min(0,dx-W)+'px)'; }
+  else if(mode==='pane'){ e.preventDefault(); cpane.style.transform='translateX('+Math.min(0,dx)+'px)'; }
+},{capture:true,passive:false});
+function tend(){ var m=mode; mode=null; cpane.classList.remove('drag');
+  if(m==='edge') setCk(dx>60); else if(m==='pane') setCk(!(dx<-70)); else if(m==='edge?') window.MOCKIT_EDGE=false; }
+document.addEventListener('touchend',tend,true); document.addEventListener('touchcancel',tend,true);
+
+window.MOCKITB3M={enter:function(){enter();},exit:exit,isOpen:function(){return on;},openList:function(){setCk(true);},closeList:function(){setCk(false);},listOpen:function(){return ckOpen;}};
+if(gv(K3)==='1') setTimeout(function(){enter();},0);
 })();
 </script>
 </body></html>
